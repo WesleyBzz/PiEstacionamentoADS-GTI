@@ -1,225 +1,253 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
-import InformaçõesClientes.InformaçõesCadastro.Cliente;
-import InformaçõesClientes.InformaçõesVeiculo.DadosDoVeiculo;
+import entidades.Estacionamento;
+import entidades.Cliente;
+import entidades.Vaga;
+import entidades.Veiculo;
 
 public class App {
-
-    // Criando Usuario CLIENTE
-
     public static void main(String[] args) {
 
-        //criando usuario
+        // LISTAS para armazenar os dados
+        List<Cliente> clientes = new ArrayList<>();
+        List<Veiculo> veiculos = new ArrayList<>();
+        List<Integer> vagasOcupadas = new ArrayList<>();
 
-        Cliente usuario = new Cliente();
-        usuario.getNome();
-        usuario.getEmail();
-        usuario.getNumerotelefone();
-
-        // CADRASTRO USUARIO - GUARDAR DADOS DO CLIENTE
-
-        String telefoneDigitado = "";
-        String emailDigitado = "";
-        String nomeDigitado = "";
-
-        // CADASTRO VEICULO - GUARDAR DADOS DO VEICULO
-
-        DadosDoVeiculo veiculoCliente = new DadosDoVeiculo();
-
-        String corDigitada;
-        String placaDigitada;
-        String modeloDigitado;
-
-
-        // criando um scanner para receber os dados
         Scanner scanner = new Scanner(System.in);
-
-        //estancia da classe estacionamento
         Estacionamento estacionamento = new Estacionamento();
-        System.out.println("Bem vindo ao estacionamento " + estacionamento.getNomedoestacionamento());
+        int opcao;
 
-
-        //variável de controle
-        boolean repostaValida = false;
-
-        String email;
-        String numerotelefone = "";
-
-        //estrutura de repetição
-        //enquanto "resposta valida" for false, o cadastro será pedido novamente
-        String info = null;
-        while (!repostaValida) {
-
-
-            // cadastro do usuario
-
-
-            System.out.println("-----------------------------------");
-            System.out.println("Vamos dar inicio ao seu cadastro");
-            System.out.println("-----------------------------------");
-
-            //NOME
-
-            boolean nomeValido = false;
-            while (!nomeValido) {
-                System.out.println("Por favor digite seu nome e sobrenome:");
-                nomeDigitado = scanner.nextLine();
-
-                if (nomeDigitado.contains(" ")) {
-                    nomeValido = true;
-                } else {
-                    System.out.println("Erro: nome inválido. Deve conter 'Nome e Sobrenome'.");
-                }
-            }
-
-            // GUARDANDO NOME
-
-            usuario.setNome(nomeDigitado);
-            System.out.println("Nome armazenado: " + usuario.getNome());
-
-            //E-MAIL
-            boolean emailValido = false;
-            while (!emailValido) {
-                System.out.println("Digite seu email:");
-                emailDigitado = scanner.nextLine();
-
-                if (emailDigitado.contains("@")) {
-                    emailValido = true;
-                } else {
-                    System.out.println("Erro: E-mail inválido. Deve conter '@'.");
-                }
-            }
-
-            //GUARDANDO EMAIL
-
-            usuario.setEmail(emailDigitado);
-            System.out.println("Email armazenado: " + usuario.getEmail());
-
-            //TELEFONE
-
-            boolean telefoneValido = false;
-            while (!telefoneValido) {
-                System.out.println("Digite seu telefone COM DDD EXEMPLO (19) 99999-9999");
-                telefoneDigitado = scanner.nextLine();
-
-                if (telefoneDigitado.matches("^\\(\\d{2}\\)\\s\\d{5}-\\d{4}$") ){
-                    telefoneValido = true;
-                } else {
-                    System.out.println(" Erro: seu número deve conter um: (DDD) 99999-9999");
-                }
-            }
-            // GUARDANDO TELEFONE
-
-            usuario.setNumerotelefone(telefoneDigitado);
-            System.out.println("Telefone armazenado: " + usuario.getNumerotelefone());
-
-            //COMFIRMAÇÃO DE DADOS
-
-            System.out.println("Por favor " + nomeDigitado + " confirme seus dados:");
-            System.out.println("Email: " + emailDigitado);
-            System.out.println("Numero de telefone: " + telefoneDigitado);
-
-
-            System.out.println("Suas informações estão corretas? (sim/não)");
-            info = scanner.nextLine();
-
-            // verificação da resposta
-
-            //se o usuario confirmar os dados sai do loop:
-            if (info.equals("sim")) {
-                System.out.println("Próxima etapa");
-                System.out.println(nomeDigitado + " agora os dados do seu veiculo!");
-                repostaValida = true;
-
-                //se estiver errado,mantem respostaValida = false, para repetir o cadastro
-            } else if (info.equals("não") || info.equals("nao")) {
-                System.out.println("Realize o cadastro novamente!");
-                repostaValida = false;
-
-                // caso digite algo diferente de "sim" ou "não"
-                //também respostaValida = false, repetindo o cadastro
-            } else {
-                System.out.println("Resposta não reconhecida. Digite 'sim' ou 'não'");
-                repostaValida = false;
-
-            }
+        // Recuperar vagas ocupadas persistentes, se existir essa funcionalidade
+        for (Integer numero : vagasOcupadas) {
+            estacionamento.ocuparVagaPersistente(numero);
         }
 
-
-        // MODELO DO VEICULO - SCANNER
-        System.out.println("-----------------------------------");
-
-        System.out.println("Digite o Modelo do seu veiculo:");
-        modeloDigitado = scanner.nextLine();
-
-        // GUARDANDO MODELO
-        veiculoCliente.setModeloveiculo(modeloDigitado);
-
-        System.out.println("Modelo armazenado: " + veiculoCliente.getModeloveiculo());
+        do {
 
 
-        System.out.println("Digite a placa do seu veiculo: ");
-        placaDigitada = scanner.nextLine();
+            System.out.println("\n=== ESTACIONAMENTO FASTRODA ===");
+            System.out.println("1. Adicionar Cliente + Veículo");
+            System.out.println("2. Lista de Clientes + Veículos");
+            System.out.println("3. Buscar Clientes");
+            System.out.println("4. Informações de Vagas");
+            System.out.println("5. Sair");
+            System.out.print("Escolha uma opção: ");
 
-        // Guardando nome dentro de user
-        veiculoCliente.setPlaca(placaDigitada);
+            
 
-        System.out.println("Placa armazenado: " + veiculoCliente.getPlaca());
+            opcao = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.println("Digite a cor do seu veiculo");
-        corDigitada = scanner.nextLine();
+            switch (opcao) {
+                case 1:
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                    System.out.println("--- CADASTRAR CLIENTE + VEÍCULO ---");
 
-        // Guardando nome dentro de user
-        veiculoCliente.setCor(corDigitada);
+                    // CADASTRO DO CLIENTE - NOME
+                    boolean nomeValido = false;
+                    String nome = "";
+                    while (!nomeValido) {
+                        System.out.print("Digite nome e sobrenome: ");
+                        nome = scanner.nextLine();
+                        if (nome.contains(" ")) {
+                            nomeValido = true;
+                        } else {
+                            System.out.println("Erro: Digite nome E sobrenome!");
+                        }
+                    }
 
-        System.out.println("Cor armazenada: " + veiculoCliente.getCor());
+                    // CADASTRO DO CLIENTE - EMAIL
+                    System.out.print("\033[H\033[2J"); // envia o console para cima
+                    System.out.flush();
 
-        // confirmação dos dados do carro
-        System.out.println("-----------------------------------");
-        System.out.println("Por favor " + " confime os dados do seu vaiculo:");
-        System.out.println("Nome do veiculo: " + modeloDigitado);
-        System.out.println("Placa do veiculo" + placaDigitada);
-        System.out.println("Cor do veiculo" + corDigitada);
+                    boolean emailValido = false;
+                    String email = "";
+                    while (!emailValido) {
+                        System.out.print("Digite seu email: ");
+                        email = scanner.nextLine();
+                        if (email.contains("@") && email.contains(".")) {
+                            emailValido = true;
+                        } else {
+                            System.out.println("Email inválido! Deve conter '@' e '.'");
+                        }
+                    }
 
-        //veriffcação dos dados do veiculo
+                    // CADASTRO DO CLIENTE - TELEFONE
+                    System.out.print("\033[H\033[2J"); // envia o console para cima
+                    System.out.flush();
 
-        if (info.equals("sim")) {
-            System.out.println("Próxima etapa");
-            System.out.println("Por favor, escolha uma vaga " + nomeDigitado);
-            repostaValida = true;
+                    boolean telefoneValido = false;
+                    String telefone = "";
+                    while (!telefoneValido) {
+                        System.out.print("Digite telefone (XX) XXXXX-XXXX: ");
+                        telefone = scanner.nextLine();
+                        if (telefone.matches("^\\(\\d{2}\\)\\s\\d{5}-\\d{4}$")) {
+                            telefoneValido = true;
+                        } else {
+                            System.out.println("Formato: (XX) XXXXX-XXXX");
+                        }
+                    }
 
-            //se estiver errado,mantem respostaValida = false, para repetir o cadastro
-        } else if (info.equals("não") || info.equals("nao")) {
-            System.out.println("Realize o cadastro novamente!");
-            repostaValida = false;
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                    System.out.println("=== DADOS DO VEÍCULO ===");
 
-            // caso digite algo diferente de "sim" ou "não"
-            //também respostaValida = false, repetindo o cadastro
-        } else {
-            System.out.println("Resposta não reconhecida. Digite 'sim' ou 'não'");
-            repostaValida = false;
+                    // CADASTRO DO VEÍCULO
+                    System.out.print("Tipo do veículo: ");
+                    String tipoVeiculo = scanner.nextLine();
+                    System.out.print("Modelo: ");
+                    String modelo = scanner.nextLine();
+                    System.out.print("Placa: ");
+                    String placa = scanner.nextLine();
+                    System.out.print("Cor: ");
+                    String cor = scanner.nextLine();
 
-        }
+                    // CRIAR OS OBJETOS
+                    Cliente cliente = new Cliente(nome, email, telefone);
+                    Veiculo veiculo = new Veiculo(modelo, placa, cor, tipoVeiculo);
 
+                    
+                    System.out.println("CADASTRO REALIZADO!");
+                    System.out.println("Cliente: " + cliente.getNome());
+                    System.out.println("Veículo: " + veiculo.getModelo() + " - " + veiculo.getPlaca());
 
-        // mostrar todas as vagas
-        estacionamento.mostrarVagas();
+                    // OFERECER VAGA
+                    System.out.println("\n--- VAGAS DISPONÍVEIS ---");
 
-        System.out.print("Digite o número da vaga que deseja ocupar: ");
-        int numVaga = scanner.nextInt();
+                    // Lista todas as vagas disponíveis
+                    for (Vaga vaga : estacionamento.getVagas()) {
+                        if (vaga.isDisponivel()) {
+                            System.out.println("Vaga " + vaga.getNumero() + " (" + vaga.getTipo() +
+                                            ") - R$" + vaga.getPrecoHora() + "/hora");
+                        }
+                    }
 
-        Vagas vagaEscolhida = estacionamento.getVagaPorNumero(numVaga);
+                    // Agora, pergunta qual vaga o usuário quer
+                    System.out.print("\nDigite o número da vaga que deseja ocupar: ");
+                    int numeroVaga = scanner.nextInt();
+                    scanner.nextLine();
 
-        if (vagaEscolhida != null && vagaEscolhida.isDisponivel()) {
-            vagaEscolhida.ocupar();
-            System.out.println("Você ocupou a vaga " + vagaEscolhida.getNumero() +
-                    " por R$" + vagaEscolhida.getPreço());
-        } else {
-            System.out.println("Vaga inválida ou já ocupada.");
-        }
+                    System.out.print("\033[H\033[2J"); // envia o console para cima
+                    System.out.flush();
 
-        // mostrar vagas de novo
-        System.out.println("\nVagas atualizadas:");
-        estacionamento.mostrarVagas();
+                    // Tenta ocupar a vaga
+                    boolean sucesso = estacionamento.ocuparVagas(numeroVaga);
+
+                    if (sucesso) {
+                        vagasOcupadas.add(numeroVaga);
+                        System.out.println(" Vaga " + numeroVaga + " ocupada com sucesso!");
+                        System.out.println("Veículo " + veiculo.getPlaca() + " estacionado");
+                    } else {
+                        System.out.println("X Não foi possível ocupar a vaga " + numeroVaga);
+                    }
+
+                    // ADICIONAR ÀS LISTAS (SEMPRE, MESMO SEM VAGA)
+                    clientes.add(cliente);
+                    veiculos.add(veiculo);
+                    break;
+
+                case 2:
+                    
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                    System.out.println("--- LISTA DE CLIENTES + VEÍCULOS ---");
+
+                    if (clientes.isEmpty()) {
+                        System.out.println("Nenhum cliente cadastrado!");
+                    } else {
+                        for (int i = 0; i < clientes.size(); i++) {
+                            Cliente c = clientes.get(i);
+                            Veiculo v = veiculos.get(i);
+
+                            System.out.println(" " + c.getNome() + " | " + c.getEmail() + " | " + c.getTelefone());
+                            System.out.println(" " + v.getModelo() + " - " + v.getPlaca() + " - " + v.getCor());
+                            System.out.println("-----------------------------------");
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                    System.out.println("--- BUSCAR CLIENTES ---");
+
+                    if (clientes.isEmpty()) {
+                        System.out.println("Nenhum cliente cadastrado!");
+                    } else {
+                        System.out.print("Digite o nome para buscar: ");
+                        String nomeBusca = scanner.nextLine();
+
+                        boolean encontrou = false;
+                        for (int i = 0; i < clientes.size(); i++) {
+                            Cliente c = clientes.get(i);
+                            Veiculo v = veiculos.get(i);
+
+                            if (c.getNome().toLowerCase().contains(nomeBusca.toLowerCase())) {
+                                System.out.println(" CLIENTE ENCONTRADO:");
+                                System.out.println(" " + c.getNome() + " | " + c.getEmail() + " | " + c.getTelefone());
+                                System.out.println(" " + v.getModelo() + " - " + v.getPlaca() + " - " + v.getCor());
+                                encontrou = true;
+                                break;
+                            }
+                        }
+
+                        if (!encontrou) {
+                            System.out.println(" Cliente não encontrado!");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                    System.out.println("--- INFORMAÇÕES DE VAGAS ---");
+
+                    int vagasLivres = 0;
+                    int vagasOcupadasCount = 0;
+
+                    for (Vaga vaga : estacionamento.getVagas()) {
+                        if (vaga.isDisponivel()) {
+                            vagasLivres++;
+                        } else {
+                            vagasOcupadasCount++;
+                        }
+                    }
+
+                    System.out.println(" RESUMO:");
+                    System.out.println("Vagas Livres: " + vagasLivres);
+                    System.out.println("Vagas Ocupadas: " + vagasOcupadasCount);
+                    System.out.println("Total: " + estacionamento.getVagas().size() + " vagas");
+
+                    System.out.println("\n--- DETALHES DAS VAGAS ---");
+                    for (Vaga vaga : estacionamento.getVagas()) {
+                        String status = vaga.isDisponivel() ? "LIVRE" : "OCUPADA";
+                        System.out.println("Vaga " + vaga.getNumero() + " (" + vaga.getTipo() + 
+                                        "): " + status + " - R$" + vaga.getPrecoHora() + "/hora");
+                    }
+
+                    // MOSTRAR VAGAS OCUPADAS DO SISTEMA
+                    if (!vagasOcupadas.isEmpty()) {
+                        System.out.println("\n--- VAGAS OCUPADAS NO SISTEMA ---");
+                        for (Integer numero : vagasOcupadas) {
+                            System.out.println("Vaga " + numero + " - OCUPADA");
+                        }
+                    }
+                    break;
+
+                case 5:
+                    System.out.print("\033[H\033[2J"); // envia o console para cima
+                    System.out.flush();
+                    System.out.println("Saindo do sistema...");
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
+            }
+
+        } while (opcao != 5);
+
+        scanner.close();
     }
 }
